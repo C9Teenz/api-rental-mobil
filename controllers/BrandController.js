@@ -8,6 +8,15 @@ class BrandController {
       res.status(500).json(error);
     }
   }
+  static async getBrandById(req, res) {
+    try {
+      const id = +req.params.id;
+      const brand = await Brand.findOne({ where: { id: id } });
+      res.status(200).json(brand);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
   static async create(req, res) {
     try {
       const { name } = req.body;

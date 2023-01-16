@@ -9,6 +9,15 @@ class UserController {
       res.status(500).json(error);
     }
   }
+  static async getUserById(req, res) {
+    try {
+      const id = +req.params.id;
+      const user = await User.findOne({ where: { id: id } });
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
   static async createUser(req, res) {
     try {
       const { name, telphone, image } = req.body;
@@ -18,7 +27,7 @@ class UserController {
         telphone,
         image,
       });
-      res.status(200).json({ message: "Create Succes" });
+      res.status(200).json({ message: "Create Succes", data: user });
     } catch (error) {
       res.status(500).json(error);
     }

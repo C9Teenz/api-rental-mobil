@@ -17,6 +17,25 @@ class ItemController {
       res.status(500).json(error);
     }
   }
+  static async getItemById(req, res) {
+    try {
+      const id = +req.params.id;
+      const item = await Item.findOne({
+        where: { id: id },
+        include: [
+          {
+            model: Brand,
+            as: "brands",
+          },
+          { model: User, as: "users" },
+        ],
+        order: [["id", "asc"]],
+      });
+      res.status(200).json(item);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
   static async createItem(req, res) {
     try {
       const {
@@ -64,6 +83,17 @@ class ItemController {
         brand_id,
         user_id,
       });
+      res.status(200).json({ message: "Update Success" });
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
+  static async updateItemUserId(req, res) {
+    try {
+      const id = +req.params.id;
+      const { user_id } = req.body;
+      let userId = await Item.findByPk(id);
+      await userId.update({ user_id });
       res.status(200).json({ message: "Update Success" });
     } catch (error) {
       res.status(500).json(error);
