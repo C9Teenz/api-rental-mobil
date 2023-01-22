@@ -9,5 +9,7 @@ const userRouter = require("./user");
 route.use("/api/user", userRouter);
 const brandRouter = require("./brand");
 route.use("/api/brand", brandRouter);
+const loginRouter = require("./login");
+route.use("/api/login", loginRouter);
 
 module.exports = route;
